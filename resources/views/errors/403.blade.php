@@ -1,0 +1,5 @@
+@extends('layouts.erreur')
+@section('titre', 'Accès refusé')
+@section('code', '403')
+@section('message', 'Vous n\'avez pas accès à cette page')
+@section('detail', $exception->getMessage() ?: 'Votre rôle ne vous autorise pas à consulter cette section. Rapprochez-vous d\'un administrateur si vous pensez qu\'il s\'agit d\'une erreur.')

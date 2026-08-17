@@ -1,0 +1,5 @@
+@extends('layouts.erreur')
+@section('titre', 'Trop de requêtes')
+@section('code', '429')
+@section('message', 'Trop de tentatives')
+@section('detail', 'Patientez quelques instants avant de réessayer.')

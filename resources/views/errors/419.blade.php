@@ -1,0 +1,5 @@
+@extends('layouts.erreur')
+@section('titre', 'Session expirée')
+@section('code', '419')
+@section('message', 'Votre session a expiré')
+@section('detail', 'Par sécurité, la page est restée inactive trop longtemps. Reconnectez-vous, puis renvoyez le formulaire.')

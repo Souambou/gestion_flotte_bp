@@ -1,0 +1,5 @@
+@extends('layouts.erreur')
+@section('titre', 'Maintenance en cours')
+@section('code', '503')
+@section('message', 'Plateforme temporairement indisponible')
+@section('detail', 'Une opération de maintenance est en cours. Le service sera rétabli sous peu.')

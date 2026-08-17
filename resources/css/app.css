@@ -1,0 +1,108 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    /* Masque les elements Alpine tant que le script n'a pas demarre. */
+    [x-cloak] { display: none !important; }
+
+    body {
+        @apply bg-ardoise-50 text-ardoise-800 antialiased;
+    }
+
+    h1, h2, h3 {
+        @apply font-display tracking-tight;
+    }
+
+    /* Accessibilite : focus toujours visible */
+    :focus-visible {
+        @apply outline-none ring-2 ring-petro-400 ring-offset-2 ring-offset-white;
+    }
+}
+
+@layer components {
+    .carte {
+        @apply bg-white rounded-xl2 border border-ardoise-200/70 shadow-carte;
+    }
+
+    .champ {
+        @apply w-full rounded-lg border-ardoise-300 text-sm placeholder:text-ardoise-400
+               focus:border-petro-500 focus:ring-petro-500;
+    }
+
+    /* Champ precede d'une icone : laisse la place au pictogramme a gauche. */
+    .champ-icone { @apply champ pl-11; }
+
+    /* Champ avec icone a gauche ET bouton a droite (mot de passe). */
+    .champ-icone-action { @apply champ pl-11 pr-11; }
+
+    /* Pictogramme place dans un champ. */
+    .icone-champ {
+        @apply pointer-events-none absolute left-0 top-0 flex h-full w-11 items-center
+               justify-center text-ardoise-400;
+    }
+
+    /* Bouton d'affichage du mot de passe. */
+    .bouton-champ {
+        @apply absolute right-0 top-0 flex h-full w-11 items-center justify-center
+               rounded-r-lg text-ardoise-400 transition-colors hover:text-petro-700
+               focus:outline-none focus-visible:text-petro-700;
+    }
+
+    .btn {
+        @apply inline-flex items-center justify-center gap-2 rounded-lg px-4 py-2.5 text-sm font-semibold
+               transition-colors disabled:opacity-50 disabled:cursor-not-allowed;
+    }
+
+    .btn-primaire   { @apply btn bg-petro-700 text-white hover:bg-petro-800; }
+    .btn-secondaire { @apply btn bg-white text-ardoise-700 border border-ardoise-300 hover:bg-ardoise-50; }
+    .btn-accent     { @apply btn bg-petro-400 text-petro-900 hover:bg-petro-300; }
+    .btn-danger     { @apply btn bg-red-600 text-white hover:bg-red-700; }
+    .btn-fantome    { @apply btn text-ardoise-600 hover:bg-ardoise-100; }
+
+    .lien-nav {
+        @apply relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium
+               text-white/70 transition-colors hover:bg-white/10 hover:text-white;
+    }
+
+    /* Le chevron du logo sert de marqueur de navigation active */
+    .lien-nav-actif {
+        @apply bg-white bg-opacity-10 text-white;
+    }
+    .lien-nav-actif::before {
+        content: '';
+        @apply absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r bg-petro-400;
+    }
+
+    .tableau {
+        @apply w-full text-left text-sm;
+    }
+    .tableau thead th {
+        @apply bg-ardoise-50 px-4 py-3 text-xs font-semibold uppercase tracking-wider text-ardoise-500;
+    }
+    .tableau tbody td {
+        @apply border-t border-ardoise-100 px-4 py-3 align-middle;
+    }
+    .tableau tbody tr:hover {
+        @apply bg-petro-50/40;
+    }
+
+    .etiquette {
+        @apply inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: .01ms !important;
+        transition-duration: .01ms !important;
+    }
+}
+
+/* Impression : on ne garde que le contenu utile */
+@media print {
+    .sans-impression { display: none !important; }
+    body { @apply bg-white; }
+}

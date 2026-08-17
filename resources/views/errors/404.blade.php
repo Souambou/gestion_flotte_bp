@@ -1,0 +1,5 @@
+@extends('layouts.erreur')
+@section('titre', 'Page introuvable')
+@section('code', '404')
+@section('message', 'Cette page n\'existe pas ou plus')
+@section('detail', 'Vérifiez le lien utilisé, ou repartez du tableau de bord.')

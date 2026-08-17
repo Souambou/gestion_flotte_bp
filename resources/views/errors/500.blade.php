@@ -1,0 +1,5 @@
+@extends('layouts.erreur')
+@section('titre', 'Erreur serveur')
+@section('code', '500')
+@section('message', 'Une erreur inattendue s\'est produite')
+@section('detail', 'L\'incident a été enregistré dans le journal applicatif. Si le problème persiste, transmettez l\'heure exacte à l\'administrateur de la plateforme.')
