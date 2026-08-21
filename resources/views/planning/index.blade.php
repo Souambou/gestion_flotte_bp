@@ -33,7 +33,7 @@
             </span>
             <div>
                 <p class="text-sm font-semibold text-ardoise-800">Véhicules dans la flotte</p>
-                <p class="text-xs text-ardoise-500">Hors véhicules retirés du service</p>
+                <p class="text-xs text-ardoise-500">véhicules enregistrés</p>
             </div>
         </div>
 

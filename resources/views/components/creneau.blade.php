@@ -31,7 +31,10 @@
             <input type="date" name="{{ $champJour }}" id="{{ $champJour }}"
                    value="{{ $jour }}" required
                    aria-label="{{ $libelle }} — date"
-                   @if($modeleJour) x-model="{{ $modeleJour }}" @endif
+                   @if($modeleJour)
+                       x-model="{{ $modeleJour }}"
+                       x-bind:min="dateMin"
+                   @endif
                    {{ $attributes->merge(['class' => 'champ']) }}>
         </div>
 
@@ -39,7 +42,10 @@
             <input type="time" name="{{ $champHeure }}" id="{{ $champHeure }}"
                    value="{{ $heure }}" required step="60"
                    aria-label="{{ $libelle }} — heure"
-                   @if($modeleHeure) x-model="{{ $modeleHeure }}" @endif
+                   @if($modeleHeure)
+                       x-model="{{ $modeleHeure }}"
+                       x-bind:min="heureMin({{ $modeleJour }})"
+                   @endif
                    {{ $attributes->merge(['class' => 'champ']) }}>
         </div>
     </div>

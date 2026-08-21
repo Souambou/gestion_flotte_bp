@@ -192,7 +192,9 @@ class ReservationController extends Controller
         ]);
 
         return $request->validate([
-            'date_debut' => ['required', 'date'],
+            // Marge de 5 min : le temps de remplir le formulaire ne doit pas rendre
+            // invalide un départ saisi "maintenant" au chargement de la page.
+            'date_debut' => ['required', 'date', 'after_or_equal:'.now()->subMinutes(5)->toDateTimeString()],
             'date_fin' => ['required', 'date', 'after:date_debut', 'before:'.$this->limiteDuree($request->input('date_debut'))],
             'lieu_depart' => ['required', 'string', 'max:180'],
             'lieu_arrivee' => ['required', 'string', 'max:180'],
@@ -201,6 +203,7 @@ class ReservationController extends Controller
             'avec_chauffeur' => ['required', 'boolean'],
             'motif' => ['required', 'string', 'min:10', 'max:1000'],
         ], [
+            'date_debut.after_or_equal' => 'Le départ ne peut pas être dans le passé.',
             'date_fin.after' => 'Le retour doit être postérieur au départ.',
             'date_fin.before' => 'La durée maximale d\'une réservation est de '.config('beninpetro.reservation.duree_max_jours').' jours.',
             'motif.min' => 'Décrivez le motif du déplacement en quelques mots.',

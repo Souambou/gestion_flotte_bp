@@ -79,12 +79,13 @@ class MaintenanceController extends Controller
 
         if ($maintenance->statut === 'en_cours') {
             $vehicule->update(['statut' => 'en_maintenance']);
-        }
-
-        if ($maintenance->statut === 'terminee') {
+        } elseif (in_array($maintenance->statut, ['terminee', 'annulee']) && $vehicule->statut === 'en_maintenance') {
+            // Cloture ou annulation : le vehicule redevient reservable.
             $vehicule->update([
-                'statut' => $vehicule->statut === 'en_maintenance' ? 'disponible' : $vehicule->statut,
-                'kilometrage' => max($vehicule->kilometrage, (int) $maintenance->kilometrage),
+                'statut' => 'disponible',
+                'kilometrage' => $maintenance->statut === 'terminee'
+                    ? max($vehicule->kilometrage, (int) $maintenance->kilometrage)
+                    : $vehicule->kilometrage,
             ]);
         }
 
@@ -95,7 +96,14 @@ class MaintenanceController extends Controller
 
     public function destroy(Maintenance $maintenance)
     {
+        $vehicule = $maintenance->vehicule;
+
         $maintenance->delete();
+
+        // L'intervention en cours disparait : le vehicule redevient reservable.
+        if ($maintenance->statut === 'en_cours' && $vehicule->statut === 'en_maintenance') {
+            $vehicule->update(['statut' => 'disponible']);
+        }
 
         return back()->with('succes', 'Intervention supprimée.');
     }

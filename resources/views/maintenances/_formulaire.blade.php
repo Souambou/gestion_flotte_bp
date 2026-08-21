@@ -67,3 +67,10 @@
         @endif
     </div>
 </div>
+
+<div class="mt-6 flex flex-col-reverse gap-3 border-t border-ardoise-200 pt-5 sm:flex-row sm:justify-center">
+    <a href="{{ route('maintenances.index') }}" class="btn-secondaire justify-center sm:min-w-[10rem]">Annuler</a>
+    <button type="submit" class="btn-primaire justify-center py-3 sm:min-w-[14rem]">
+        {{ $maintenance ? 'Enregistrer les modifications' : 'Planifier l\'intervention' }}
+    </button>
+</div>

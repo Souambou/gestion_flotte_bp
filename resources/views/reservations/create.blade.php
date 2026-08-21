@@ -19,6 +19,32 @@
             heureFin: @json(old('heure_date_fin', '17:00')),
             resultat: null,
 
+            // Horloge figée sur l'heure du serveur (fuseau Bénin) au chargement de
+            // la page, puis avancée avec le temps réellement écoulé côté client.
+            // On ignore ainsi l'horloge et le fuseau du poste de l'utilisateur.
+            baseServeurMs: {{ now()->timestamp }} * 1000,
+            decalageSecondes: {{ now()->getOffset() }},
+            refClient: Date.now(),
+            tic: 0,
+
+            init() {
+                setInterval(() => { this.tic++; }, 30000);
+            },
+
+            get maintenantLocalMs() {
+                void this.tic; // dependance reactive : fait revalider dateMin/heureMin chaque tic
+                return this.baseServeurMs + this.decalageSecondes * 1000 + (Date.now() - this.refClient);
+            },
+            get dateMin() {
+                const d = new Date(this.maintenantLocalMs);
+                return `${d.getUTCFullYear()}-${String(d.getUTCMonth() + 1).padStart(2, '0')}-${String(d.getUTCDate()).padStart(2, '0')}`;
+            },
+            heureMin(jour) {
+                if (jour !== this.dateMin) return '00:00';
+                const d = new Date(this.maintenantLocalMs);
+                return `${String(d.getUTCHours()).padStart(2, '0')}:${String(d.getUTCMinutes()).padStart(2, '0')}`;
+            },
+
             // Recompose les deux champs visibles en une valeur exploitable par le serveur.
             get debut() { return this.jourDebut && this.heureDebut ? `${this.jourDebut}T${this.heureDebut}` : ''; },
             get fin() { return this.jourFin && this.heureFin ? `${this.jourFin}T${this.heureFin}` : ''; },

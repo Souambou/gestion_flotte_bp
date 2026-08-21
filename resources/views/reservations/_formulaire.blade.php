@@ -44,18 +44,20 @@
         {{-- ------------------------------------------------------------ Où --}}
         <x-carte titre="Où ?" sous-titre="Indiquez des lieux précis pour faciliter l'organisation">
             <div class="grid gap-5 sm:grid-cols-2">
-                <x-champ nom="lieu_depart" libelle="Lieu de départ" obligatoire
-                         :valeur="$reservation?->lieu_depart"
-                         placeholder="Siège Bénin Pétro, Cotonou"/>
+                <x-champ nom="lieu_depart" libelle="Lieu de départ" obligatoire readonly
+                         :valeur="$reservation?->lieu_depart ?? 'Siège Bénin Pétro, Cotonou'"
+                         class="cursor-not-allowed bg-ardoise-50"
+                         aide="Point de départ unique de la flotte."/>
                 <x-champ nom="lieu_arrivee" libelle="Destination" obligatoire
                          :valeur="$reservation?->lieu_arrivee"
-                         placeholder="Dépôt de Parakou"/>
+                         placeholder="Dépôt de Parakou"
+                         title="Veuillez séparer les destinations par une virgule en cas de plusieurs destinations."
+                         aide="Plusieurs destinations ? Séparez-les par une virgule."/>
             </div>
 
             @unless($mapsActif ?? false)
                 <p class="mt-3 text-xs text-ardoise-500">
-                    L'estimation automatique des distances s'activera dès que la clé Google Maps
-                    sera renseignée dans Paramètres&nbsp;› Intégrations.
+                   
                 </p>
             @endunless
         </x-carte>
@@ -66,7 +68,7 @@
                 <x-selecteur nom="departement" libelle="Département demandeur" obligatoire
                              :options="$departements" vide="Sélectionner un département"
                              :valeur="$departementDefaut"
-                             aide="Sert aux statistiques de demandes par service."/>
+                             aide=""/>
 
                 <x-selecteur nom="type_deplacement" libelle="Type de déplacement" obligatoire
                              :options="$typesDeplacement" :valeur="$typeDefaut"/>
@@ -101,8 +103,8 @@
         <x-carte titre="Pourquoi ?">
             <x-zone-texte nom="motif" libelle="Motif du déplacement" obligatoire :lignes="4"
                           :valeur="$reservation?->motif"
-                          placeholder="Tournée commerciale sur l'axe Cotonou — Parakou, livraison de documents au dépôt."
-                          aide="Ce motif est lu par le responsable de flotte lors de l'arbitrage entre demandes."/>
+                          placeholder="Tournée commerciale sur la station...."
+                          aide=""/>
         </x-carte>
     </div>
 
@@ -122,9 +124,6 @@
                     </li>
                 @endforeach
             </ol>
-            <p class="mt-4 border-t border-ardoise-100 pt-3 text-xs text-ardoise-500">
-                Annulation libre jusqu'à {{ config('beninpetro.reservation.delai_annulation_heures') }} h avant le départ.
-            </p>
         </x-carte>
 
         <x-carte titre="Vérifier les disponibilités">
